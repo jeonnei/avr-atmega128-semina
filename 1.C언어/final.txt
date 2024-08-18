@@ -1,0 +1,193 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+
+int icecream();// 베스킨라빈스 31게임
+int diamond();// 5이상의 정수를 입력받고 다이아몬드 출력
+int updown();// 정수를 원하는 만큼 입력받고 오름차순 내림차순으로 정렬
+int twotwo();//2진수 입력받고 8,10,16진수 출력
+
+int main()
+{
+	int num;
+	while (1) {
+		printf("-----------------------------------------------------------------------------------------------------------------------\n");
+		printf("                                      실행하고 싶은 프로그램 번호를 입력하세요\n");
+		printf("1.베스킨 라빈스 31게임 2. 8,10,16진수로 출력하기 3.원하는 정수를 입력받아 오름차순 내림차순 4.다이아 별 5.프로그램 종료\n");
+		printf("-----------------------------------------------------------------------------------------------------------------------\n");
+		scanf_s("%d", &num);
+
+
+		if (num == 1)
+			icecream();
+		else if (num == 2)
+			twotwo();
+		else if (num == 3)
+			updown();
+		else if (num == 4)
+			diamond();
+		else if (num == 5)
+			break;
+		else
+			printf("1부터 5사이의 숫자를 입력하세요.\n\n");
+	}
+	return 0;
+}
+
+
+int icecream(void)
+{
+	int i, c,  cnt = 0;//cnt=count
+	int n1, n2;  //n1=나,n2=컴퓨터
+	printf("베스킨라빈스31게임 지금 시작합니다!!!!!!!\n");
+	while (1) {
+		printf("1부터 3까지의 숫자중 하나를 입력:\n");
+		scanf_s("%d", &n1);
+		if ((n1 <= 0) | (n1 > 3)) {//내가 입력한 함수가 0이하거나 3보다크면 무한루프
+			printf("1부터3까지만 입력하세요!\n");
+		}
+		else {
+			c = cnt; //카운트된 cnt값 c에 저장
+			for (i = c + 1; i <= (n1 + c); i++) {//c+1을 안해주면 이전숫자를 한번더 카운트하게 된다.
+				printf("%d ", i);
+				cnt++;
+			}
+			printf("\n");
+			if (cnt >= 31) {
+				printf("컴퓨터가 이겼습니다.");
+				break;
+			}
+			c = cnt; //카운트된 cnt값 c에 저장
+			srand((unsigned)time(NULL));//음수가 아닌 랜덤 난수를 만들어줌
+			n2 = rand() % 3 + 1; //0~2까지 범위의 랜덤함수에 1을더함.
+			printf("[컴퓨터]: %d\n", n2);
+
+			for (i = c + 1; i <= (n2 + c); i++) {//c+1을 안해주면 이전숫자를 한번더 카운트하게 된다.
+				printf("%d ", i);
+				cnt++;
+			}
+			printf("\n");
+			if (cnt >= 31) {
+				printf("당신이 이겼습니다.");
+				break;
+			}
+		}
+	}
+	return 0;
+}
+int diamond() {
+	int i, j, k;
+	int n;//n은 입력값,
+	
+	while (1)
+	{
+		printf("5이상의 정수만 입력하시오.(종료를 원하시면 0입력)\n");
+		scanf_s("%d", &n);
+		if ((n > 0 && n < 5) && (n < 0)) 
+			continue;		
+		else if (n >= 5) {
+			for (i = 0; i < 1; i++) {
+				printf(" ");
+			}
+			for (i = 0; i < n - 2; i++) {
+				printf("*");
+			}printf("\n");
+			for (i = 0; i < n; i += 2) {
+				for (k = 0; k < i; k += 2) {
+					printf(" ");
+				}
+				for (j = 0; j < n - i; j++) {
+					printf("*");
+				}printf("\n");
+			}
+		}
+		else if (n == 0)
+			break;
+	}
+	return 0;
+}
+int updown() {// 0~999사이의 정수를 입력받아 오름차순 내림차순으로 정렬
+	int input[20] = { 0 };   //원하는 정수들을 담는 배열(최대 20개까지)
+	int i, k, least, temp, SIZE,stop;
+	while (1) {
+		printf("원하는 정수를 입력하시오(0~999사이 정수) : ");
+
+		for (int i = 0; i < 20; i++) { //원하는 만큼 정수 입력 반복
+
+			scanf_s("%d", &input[i]);   //정수 배열에 넣기
+			if (input[i] > 999 || input[i] < 0)// 범위를 초과한 숫자는 제외
+			{
+				i--;
+			}
+			SIZE = i;                // 배열원소의 수-1
+			if (getc(stdin) == '\n') { //엔터를 누르면 반복 종료
+
+				break;
+			}
+
+		}
+		for (i = 0; i < SIZE; i++)       //오름차순으로 정렬
+		{
+			least = i; //i번째 원소를 최소값이라고 가정
+			for (k = i + 1; k <= SIZE; k++)// i+1번째 원소부터 마지막 원소까지 최소값 찾기
+			{
+				if (input[k] < input[least])// 현재의 최소값과 비교해서 더 작은 정수가 발견되면 least에 저장
+					least = k;
+			}
+			temp = input[i]; //
+			input[i] = input[least];//i번째 원소와 least위치의 원소를 교환
+			input[least] = temp;//
+
+
+		}
+		printf("오름차순:");
+		for (i = 0; i <= SIZE; i++) {    //정렬한 배열 출력
+
+			printf("%d ", input[i]);
+		}
+		printf("\n");
+		for (i = 0; i < SIZE; i++)       //내림차순으로 정렬
+		{
+			least = i;
+			for (k = i + 1; k <= SIZE; k++) // i+1번째 원소부터 마지막 원소까지 최대값 찾기
+			{
+				if (input[k] > input[least])// 현재의 최대값과 비교해서 더 큰 정수가 발견되면 least에 저장
+					least = k;
+			}
+			temp = input[i];//
+			input[i] = input[least];// i번째 원소와 least위치의 원소를 교환
+			input[least] = temp;//
+		}
+		printf("내림차순:");
+		for (i = 0; i <= SIZE; i++) {    //정렬한 배열 출력
+
+			printf("%d ", input[i]);
+		}
+		printf("\n");
+		printf("종료를 원하시면 0을 계속 진행하시면 아무키나 입력해주세요.\n");
+		scanf_s("%d", &stop);
+		if (stop == 0)
+			break;
+	}
+	return 0;
+}
+int twotwo() {
+	while (1) {
+		int binary, copy, result = 0, temp = 1;//binary는 2진수,copy는 변수,result는 10진수
+		printf("이진수를 입력하시오:(종료를 원하시면 0입력)\n");
+		scanf_s("%d", &binary);
+		copy = binary;
+		if (binary != 0) {
+			while (copy != 0) {
+				if (copy % 10)  //나머지가 0이면 거짓으로 실행안됨.
+					result += temp;
+				copy /= 10; //copy를 10으로 나눈수를  copy에 저장,1보다 작아지면 0이됨 ex)0.1 =0으로 저장
+				temp *= 2; //temp에 2를 곱한수를 temp에 저장
+			}
+			printf("이진수 %d는 십진수 %d, 8진수 %o, 16진수 %x입니다.\n", binary, result, result, result);
+		}
+		else if (binary == 0)
+			break;
+	}
+	return 0;
+}
